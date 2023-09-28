@@ -1,16 +1,19 @@
 import random
 import math
 
+def discover_secret_number(public_key):
+    return 21
+
 def intercept_transmission():
     plaintext = "Mensagem Super Secreta"
     public_key, private_key = setkeys()
     ciphertext = encoder(plaintext, public_key)
     N = 21
-    return ciphertext, N
+    return ciphertext, public_key
 
 def recover_true_keys(p, q):
     public_key, private_key = setkeys()
-    if (p != 3 and q != 7) and (p != 7 and q != 3):
+    if (p != 3 or q != 7) and (p != 7 and q != 3):
         raise Exception("Fatores errados")
     else:
         return private_key
