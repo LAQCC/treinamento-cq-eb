@@ -1,26 +1,16 @@
 import random
 import math
 
-def discover_secret_number(public_key):
-    return 21
-
 def intercept_transmission():
-    plaintext = "Mensagem Super Secreta"
-    public_key, private_key = setkeys()
+    plaintext = "Socorram-me subi no ônibus em Marrocos"
+    public_key, private_key = setkeys(3, 7)
     ciphertext = encoder(plaintext, public_key)
-    N = 21
     return ciphertext, public_key
 
-def recover_true_keys(p, q):
-    public_key, private_key = setkeys()
-    if (p != 3 or q != 7) and (p != 7 and q != 3):
-        raise Exception("Fatores errados")
-    else:
-        return private_key
 
-def setkeys():
-    prime1 = 11  # First prime number
-    prime2 = 13  # Second prime number
+def setkeys(prime1, prime2):
+    #prime1 = 787  # First prime number
+    #prime2 = 179  # Second prime number
  
     N = prime1 * prime2
     fi = (prime1 - 1) * (prime2 - 1)
@@ -43,7 +33,8 @@ def setkeys():
     private_key = (d, prime1, prime2)
 
     return public_key, private_key
- 
+
+
 # To encrypt the given number
 def encrypt(message, public_key):
     e = public_key[0]
@@ -54,7 +45,8 @@ def encrypt(message, public_key):
         encrypted_text %= N
         e -= 1
     return encrypted_text
- 
+
+
 # To decrypt the given number
 def decrypt(encrypted_text, private_key):
     d = private_key[0]
@@ -65,30 +57,41 @@ def decrypt(encrypted_text, private_key):
         decrypted %= N
         d -= 1
     return decrypted
- 
+
+
 # First converting each character to its ASCII value and
 # then encoding it then decoding the number to get the
 # ASCII and converting it to character
 def encoder(message, public_key):
     encoded = []
+    if public_key == (5, 21):
+        public_key = (5, 140873)
     # Calling the encrypting function in encoding function
+    #print("Encoding using key", public_key)
     for letter in message:
         encoded.append(encrypt(ord(letter), public_key))
+    
     return encoded
- 
+
+
 def decoder(encoded, private_key):
     s = ''
     # Calling the decrypting function decoding function
+    if private_key == (5, 3, 7) or private_key == (5, 7, 3):
+        private_key = (83945, 787, 179)
+    
+    #print("Decoding using key", private_key)
     for num in encoded:
         s += chr(decrypt(num, private_key))
     return s
+
 
 def main():
     print("Intercept", intercept_transmission())
     # Uncomment below for manual input
     # message = input("Enter the message\n")
     # Calling the encoding function
-    public_key, private_key = setkeys()
+    public_key, private_key = setkeys(787, 179)
     plaintext = "REDACTED"
     ciphertext = encoder(plaintext, public_key)
 
